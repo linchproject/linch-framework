@@ -7,6 +7,7 @@ import com.github.mustachejava.TemplateFunction;
 import com.linchproject.core.Result;
 import com.linchproject.core.Route;
 
+import java.io.Reader;
 import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.Map;
@@ -45,19 +46,25 @@ public abstract class Controller extends com.linchproject.core.Controller {
 
         StringWriter writer = new StringWriter();
 
-        ClassLoader contextClassLoader = null;
-        if (classLoader != null) {
-            contextClassLoader = Thread.currentThread().getContextClassLoader();
-            Thread.currentThread().setContextClassLoader(classLoader);
-        }
+        MustacheFactory mf = new DefaultMustacheFactory() {
+            @Override
+            public Reader getReader(String resourceName) {
+                ClassLoader contextClassLoader = null;
+                if (classLoader != null) {
+                    contextClassLoader = Thread.currentThread().getContextClassLoader();
+                    Thread.currentThread().setContextClassLoader(classLoader);
+                }
 
-        MustacheFactory mf = new DefaultMustacheFactory();
+                Reader reader = super.getReader(resourceName);
+
+                if (contextClassLoader != null) {
+                    Thread.currentThread().setContextClassLoader(contextClassLoader);
+                }
+                return reader;
+            }
+        };
         Mustache mustache = mf.compile("templates/" + template + ".mustache");
         mustache.execute(writer, context);
-
-        if (contextClassLoader != null) {
-            Thread.currentThread().setContextClassLoader(contextClassLoader);
-        }
 
         return success(writer.toString());
     }
