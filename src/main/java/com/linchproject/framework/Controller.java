@@ -1,14 +1,12 @@
 package com.linchproject.framework;
 
-import com.github.mustachejava.DefaultMustacheFactory;
-import com.github.mustachejava.Mustache;
-import com.github.mustachejava.MustacheFactory;
 import com.github.mustachejava.TemplateFunction;
 import com.linchproject.core.Result;
 import com.linchproject.core.Route;
+import com.linchproject.framework.components.ConnectionService;
+import com.linchproject.framework.components.I18nService;
+import com.linchproject.framework.components.RenderService;
 
-import java.io.Reader;
-import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -17,63 +15,54 @@ import java.util.Map;
  */
 public abstract class Controller extends com.linchproject.core.Controller {
 
-    protected ClassLoader classLoader;
+    protected ConnectionService connectionService;
+    protected RenderService renderService;
+    protected I18nService i18nService;
 
     protected Result render(String template) {
         return render(template, context());
     }
 
     protected Result render(String template, Map<String, Object> context) {
-        if (context == null) {
-            context = new HashMap<String, Object>();
-        }
-        context.put("path", new TemplateFunction() {
-            @Override
-            public String apply(String input) {
-
-                String url = null;
-                if (route != null) {
-                    Route newRoute = route.copy();
-                    if (input.length() > 0) {
-                        newRoute.setPath(input);
-                    }
-                    url = newRoute.getUrl();
-                }
-                return url;
-            }
-        });
-        context.put("route", route);
-
-        StringWriter writer = new StringWriter();
-
-        MustacheFactory mf = new DefaultMustacheFactory() {
-            @Override
-            public Reader getReader(String resourceName) {
-                ClassLoader contextClassLoader = null;
-                if (classLoader != null) {
-                    contextClassLoader = Thread.currentThread().getContextClassLoader();
-                    Thread.currentThread().setContextClassLoader(classLoader);
-                }
-
-                Reader reader = super.getReader(resourceName);
-
-                if (contextClassLoader != null) {
-                    Thread.currentThread().setContextClassLoader(contextClassLoader);
-                }
-                return reader;
-            }
-        };
-        Mustache mustache = mf.compile("templates/" + template + ".mustache");
-        mustache.execute(writer, context);
-
-        return success(writer.toString());
+        return success(renderService.render(template, context));
     }
 
     protected Context context() {
-        return new Context();
+        return new Context()
+                .put("route", route)
+                .put("path", new TemplateFunction() {
+                    @Override
+                    public String apply(String input) {
+                        String url = null;
+                        if (route != null) {
+                            Route newRoute = route.copy();
+                            if (input.length() > 0) {
+                                newRoute.setPath(input);
+                            }
+                            url = newRoute.getUrl();
+                        }
+                        return url;
+                    }
+                });
     }
 
-    public void setClassLoader(ClassLoader classLoader) {
-        this.classLoader = classLoader;
+    public class Context extends HashMap<String, Object> {
+        @Override
+        public Context put(String key, Object value) {
+            super.put(key, value);
+            return this;
+        }
+    }
+
+    public void setConnectionService(ConnectionService connectionService) {
+        this.connectionService = connectionService;
+    }
+
+    public void setRenderService(RenderService renderService) {
+        this.renderService = renderService;
+    }
+
+    public void setI18nService(I18nService i18nService) {
+        this.i18nService = i18nService;
     }
 }
