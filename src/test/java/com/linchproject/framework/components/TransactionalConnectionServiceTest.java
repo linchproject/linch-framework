@@ -51,6 +51,8 @@ public class TransactionalConnectionServiceTest {
         Connection connection1 = transactionalConnectionService.getConnection();
         Connection connection2 = transactionalConnectionService.getConnection();
         assertTrue(connection1 == connection2);
+
+        transactionalConnectionService.commit();
     }
 
     @Test
