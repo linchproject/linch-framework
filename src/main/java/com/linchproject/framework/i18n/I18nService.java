@@ -1,6 +1,4 @@
-package com.linchproject.framework.components;
-
-import com.linchproject.framework.I18n;
+package com.linchproject.framework.i18n;
 
 import java.util.Locale;
 

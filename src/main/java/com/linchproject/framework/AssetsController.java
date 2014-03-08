@@ -2,6 +2,7 @@ package com.linchproject.framework;
 
 import com.linchproject.core.Params;
 import com.linchproject.core.Result;
+import com.linchproject.framework.assets.AssetService;
 
 import java.io.InputStream;
 
@@ -10,21 +11,14 @@ import java.io.InputStream;
  */
 public abstract class AssetsController extends com.linchproject.core.Controller {
 
-    protected ClassLoader classLoader;
+    protected AssetService assetService;
 
     public Result _(Params params) {
-        String fileName = "/assets/" + route.getAfterController();
-
-        InputStream inputStream;
-        if (classLoader != null) {
-            inputStream = classLoader.getResourceAsStream(fileName);
-        } else {
-            inputStream = getClass().getResourceAsStream(fileName);
-        }
-        return binary(inputStream);
+        InputStream inputStream = assetService.getInputStream(route.getAfterController());
+        return inputStream != null? binary(inputStream): error("");
     }
 
-    public void setClassLoader(ClassLoader classLoader) {
-        this.classLoader = classLoader;
+    public void setAssetService(AssetService assetService) {
+        this.assetService = assetService;
     }
 }

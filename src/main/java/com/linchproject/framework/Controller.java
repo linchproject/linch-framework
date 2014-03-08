@@ -3,9 +3,9 @@ package com.linchproject.framework;
 import com.github.mustachejava.TemplateFunction;
 import com.linchproject.core.Result;
 import com.linchproject.core.Route;
-import com.linchproject.framework.components.ConnectionService;
-import com.linchproject.framework.components.I18nService;
-import com.linchproject.framework.components.RenderService;
+import com.linchproject.framework.db.ConnectionService;
+import com.linchproject.framework.i18n.I18nService;
+import com.linchproject.framework.view.RenderService;
 
 import java.util.HashMap;
 import java.util.Map;

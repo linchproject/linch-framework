@@ -1,4 +1,4 @@
-package com.linchproject.framework;
+package com.linchproject.framework.i18n;
 
 import java.util.List;
 import java.util.MissingResourceException;

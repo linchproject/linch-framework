@@ -1,4 +1,4 @@
-package com.linchproject.framework.components;
+package com.linchproject.framework.db;
 
 import com.linchproject.ioc.Transactional;
 import org.sql2o.Connection;

@@ -1,4 +1,4 @@
-package com.linchproject.framework.components;
+package com.linchproject.framework.view;
 
 import java.util.Map;
 

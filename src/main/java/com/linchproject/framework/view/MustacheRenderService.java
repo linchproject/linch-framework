@@ -1,4 +1,4 @@
-package com.linchproject.framework.components;
+package com.linchproject.framework.view;
 
 import com.github.mustachejava.DefaultMustacheFactory;
 import com.github.mustachejava.Mustache;

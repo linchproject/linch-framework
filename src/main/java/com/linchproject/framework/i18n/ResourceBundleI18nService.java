@@ -1,7 +1,4 @@
-package com.linchproject.framework.components;
-
-import com.linchproject.framework.I18n;
-import com.linchproject.framework.ResourceBundleI18n;
+package com.linchproject.framework.i18n;
 
 import java.net.URL;
 import java.net.URLClassLoader;

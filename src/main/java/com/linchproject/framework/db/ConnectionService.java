@@ -1,4 +1,4 @@
-package com.linchproject.framework.components;
+package com.linchproject.framework.db;
 
 import org.sql2o.Connection;
 import org.sql2o.Query;

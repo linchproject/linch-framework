@@ -3,7 +3,7 @@ package com.linchproject.framework;
 import com.linchproject.core.Result;
 import com.linchproject.core.Route;
 import com.linchproject.core.results.Success;
-import com.linchproject.framework.components.MustacheRenderService;
+import com.linchproject.framework.view.MustacheRenderService;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
