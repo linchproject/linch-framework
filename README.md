@@ -6,7 +6,7 @@ Note: This documentation is still work in progress.
 
 ### Install the SDK
 
-Download the [shell script](https://github.com/linchproject/linch-sdk/raw/master/bin/linch), make it executable with "chmod +x linch" and move it for example in /usr/local/bin.
+Download the [Linch shell script](https://github.com/linchproject/linch-sdk/raw/master/bin/linch), make it executable with "chmod +x linch" and move it for example to /usr/local/bin.
 
 If you're on OSX, you can use the [installer](https://github.com/linchproject/linch-sdk/raw/master/linch-sdk-0.1-SNAPSHOT.pkg).
 
