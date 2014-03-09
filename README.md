@@ -36,9 +36,9 @@ After that, the structure of your project should look like this.
 
 
 ### Run your application
-To run your application, use the maven jetty plugin.
+Run it with:
 
-    mvn jetty:run
+    linch run
 
 Now you can point your browser to [http://localhost:8080/](http://localhost:8080/). It should say "Hello World"
 
