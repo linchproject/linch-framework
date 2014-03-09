@@ -4,17 +4,20 @@ Note: This documentation is still work in progress.
 
 ##Getting started
 
+### Install the SDK
+
+Download the [shell script](https://github.com/linchproject/linch-sdk/raw/master/bin/linch), make it executable with "chmod +x linch" and move it for example in /usr/local/bin.
+
+If you're on OSX, you can use the [installer](https://github.com/linchproject/linch-sdk/raw/master/linch-sdk-0.1-SNAPSHOT.pkg).
+
 ### Create a project
-Create a Maven project with the Linch archetype.
+Run:
 
-    mvn archetype:generate \
-    -DarchetypeGroupId=com.linchproject \
-    -DarchetypeArtifactId=linch-archetype \
-    -DarchetypeVersion=0.1-SNAPSHOT \
-    -DarchetypeRepository=https://github.com/linchproject/mvn-repo/raw/master/snapshots
+    linch create
 
+You will be asked for your group ID, artifact ID, version and package.
 
-The structure of your project should look like this.
+After that, the structure of your project should look like this.
 
     example
     ├─ src
