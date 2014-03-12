@@ -8,7 +8,7 @@ Note: This documentation is still work in progress.
 
 Download the [Linch shell script](https://github.com/linchproject/linch-sdk/raw/master/bin/linch), make it executable with "chmod +x linch" and move it for example to /usr/local/bin.
 
-If you're on OSX, you can use the [installer](https://github.com/linchproject/linch-sdk/raw/master/linch-sdk-0.1-SNAPSHOT.pkg).
+If you're on OSX, you can use the [installer](https://github.com/linchproject/linch-sdk/raw/master/linch-sdk-0.1.pkg).
 
 ### Create a project
 Run:
