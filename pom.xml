@@ -12,17 +12,17 @@
         <dependency>
             <groupId>com.linchproject</groupId>
             <artifactId>linch-core</artifactId>
-            <version>0.1-SNAPSHOT</version>
+            <version>0.1</version>
         </dependency>
         <dependency>
             <groupId>com.linchproject</groupId>
             <artifactId>linch-ioc</artifactId>
-            <version>0.1-SNAPSHOT</version>
+            <version>0.1</version>
         </dependency>
         <dependency>
             <groupId>com.linchproject</groupId>
             <artifactId>linch-http</artifactId>
-            <version>0.1-SNAPSHOT</version>
+            <version>0.1</version>
         </dependency>
 
         <dependency>
