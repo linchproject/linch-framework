@@ -1,6 +1,8 @@
 package com.linchproject.framework.db;
 
 import com.linchproject.ioc.Transactional;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.sql2o.Connection;
 import org.sql2o.Query;
 import org.sql2o.Sql2o;
@@ -12,6 +14,8 @@ import javax.sql.DataSource;
  * @author Georg Schmidl
  */
 public class TransactionalConnectionService implements ConnectionService, Transactional {
+
+    private static final Logger log = LoggerFactory.getLogger(TransactionalConnectionService.class);
 
     private static final ThreadLocal<Connection> connectionThreadLocal = new ThreadLocal<Connection>();
 
@@ -25,6 +29,7 @@ public class TransactionalConnectionService implements ConnectionService, Transa
 
     @Override
     public void begin() {
+        log.debug("beginning transaction");
         Connection connection = connectionThreadLocal.get();
         if (connection == null) {
             connection = sql2o.beginTransaction();
@@ -34,6 +39,7 @@ public class TransactionalConnectionService implements ConnectionService, Transa
 
     @Override
     public void commit() {
+        log.debug("committing transaction");
         Connection connection = connectionThreadLocal.get();
         if (connection != null) {
             connection.commit();
@@ -43,6 +49,7 @@ public class TransactionalConnectionService implements ConnectionService, Transa
 
     @Override
     public void rollback() {
+        log.debug("rolling back transaction");
         Connection connection = connectionThreadLocal.get();
         if (connection != null) {
             connection.rollback();

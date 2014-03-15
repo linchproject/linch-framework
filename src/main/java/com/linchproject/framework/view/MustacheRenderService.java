@@ -3,6 +3,8 @@ package com.linchproject.framework.view;
 import com.github.mustachejava.DefaultMustacheFactory;
 import com.github.mustachejava.Mustache;
 import com.github.mustachejava.MustacheFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.Reader;
 import java.io.StringWriter;
@@ -13,10 +15,14 @@ import java.util.Map;
  */
 public class MustacheRenderService implements RenderService {
 
+    private static final Logger log = LoggerFactory.getLogger(MustacheRenderService.class);
+
     protected ClassLoader classLoader;
 
     @Override
     public String render(String template, Map<String, Object> context) {
+        log.debug("rendering {}");
+
         StringWriter writer = new StringWriter();
 
         MustacheFactory mf = new DefaultMustacheFactory() {
@@ -24,8 +30,11 @@ public class MustacheRenderService implements RenderService {
             public Reader getReader(String resourceName) {
                 ClassLoader contextClassLoader = null;
                 if (classLoader != null) {
+                    log.debug("using {}", classLoader);
                     contextClassLoader = Thread.currentThread().getContextClassLoader();
                     Thread.currentThread().setContextClassLoader(classLoader);
+                } else {
+                    log.debug("using {}", Thread.currentThread().getContextClassLoader());
                 }
 
                 Reader reader = super.getReader(resourceName);
@@ -36,7 +45,10 @@ public class MustacheRenderService implements RenderService {
                 return reader;
             }
         };
-        Mustache mustache = mf.compile("templates/" + template + ".mustache");
+
+        String fileName = "templates/" + template + ".mustache";
+        log.debug("compiling {}", fileName);
+        Mustache mustache = mf.compile(fileName);
         mustache.execute(writer, context);
 
         return writer.toString();
