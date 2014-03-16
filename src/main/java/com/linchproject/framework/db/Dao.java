@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * @author Georg Schmidl
  */
-public abstract class Dao<T> {
+public abstract class Dao<T extends Entity> {
 
     protected ConnectionService connectionService;
 
@@ -15,9 +15,9 @@ public abstract class Dao<T> {
 
     public abstract List<T> findAll();
 
-    public abstract void save(T object);
+    public abstract void save(T entity);
 
-    public abstract void delete(T object);
+    public abstract void delete(T entity);
 
     protected Query query(String sql) {
         return connectionService.createQuery(sql);
