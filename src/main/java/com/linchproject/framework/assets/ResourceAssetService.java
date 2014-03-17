@@ -21,18 +21,17 @@ public class ResourceAssetService implements AssetService {
         fileName = "/assets/" + fileName;
         log.debug("loading asset {}", fileName);
 
-        ClassLoader classLoader;
-        if (this.classLoader != null) {
-            classLoader = this.classLoader;
-        } else {
-            classLoader = getClass().getClassLoader();
-        }
-        log.debug("using {}", classLoader);
-
         Asset asset = new Asset();
         asset.setFileName(fileName);
-        asset.setInputStream(new LazyResourceInputStream(classLoader, fileName));
         asset.setLastModified(lastModified);
+
+        if (this.classLoader != null) {
+            asset.setInputStream(new LazyResourceInputStream(classLoader, fileName));
+            log.debug("using {}", classLoader);
+        } else {
+            asset.setInputStream(new LazyResourceInputStream(getClass(), fileName));
+            log.debug("using {}", getClass());
+        }
 
         return asset;
     }

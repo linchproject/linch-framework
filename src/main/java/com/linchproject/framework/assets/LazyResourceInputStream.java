@@ -8,6 +8,7 @@ import java.io.InputStream;
  */
 public class LazyResourceInputStream extends InputStream {
 
+    private Class<?> clazz;
     private ClassLoader classLoader;
     private String resourceName;
     
@@ -17,9 +18,16 @@ public class LazyResourceInputStream extends InputStream {
         this.classLoader = classLoader;
         this.resourceName = resourceName;
     }
-    
+
+    public LazyResourceInputStream(Class<?> clazz, String resourceName) {
+        this.clazz = clazz;
+        this.resourceName = resourceName;
+    }
+
     protected InputStream getInputStream() {
-        if (inputStream == null) {
+        if (inputStream == null && clazz != null) {
+            inputStream = clazz.getResourceAsStream(resourceName);
+        } else if (inputStream == null && classLoader != null) {
             inputStream = classLoader.getResourceAsStream(resourceName);
         }
         return inputStream;
