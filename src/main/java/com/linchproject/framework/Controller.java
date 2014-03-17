@@ -3,6 +3,8 @@ package com.linchproject.framework;
 import com.github.mustachejava.TemplateFunction;
 import com.linchproject.core.Result;
 import com.linchproject.core.Route;
+import com.linchproject.core.results.Binary;
+import com.linchproject.framework.assets.Asset;
 import com.linchproject.framework.assets.AssetService;
 import com.linchproject.framework.db.ConnectionService;
 import com.linchproject.framework.i18n.I18n;
@@ -12,7 +14,6 @@ import com.linchproject.http.CookieService;
 import com.linchproject.http.LocaleService;
 import com.linchproject.http.SessionService;
 
-import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -70,8 +71,17 @@ public abstract class Controller extends com.linchproject.core.Controller {
 
     protected Result asset() {
         String fileName = route.getAfterController();
-        InputStream inputStream = assetService.getInputStream(fileName);
-        return inputStream != null? binary(inputStream): error("");
+
+        Asset asset = assetService.getAsset(fileName);
+
+        Binary binary = new Binary();
+        binary.setFileName(asset.getFileName());
+        binary.setInputStream(asset.getInputStream());
+        binary.setLength(asset.getLength());
+        binary.setLastModified(asset.getLastModified());
+        binary.setPublic(true);
+
+        return binary;
     }
 
     protected I18n getI18n() {
