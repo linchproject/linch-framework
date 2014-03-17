@@ -3,8 +3,6 @@ package com.linchproject.framework.assets;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
-import java.io.InputStream;
 import java.util.Date;
 
 /**
@@ -23,17 +21,17 @@ public class ResourceAssetService implements AssetService {
         fileName = "/assets/" + fileName;
         log.debug("loading asset {}", fileName);
 
-        InputStream inputStream;
-        if (classLoader != null) {
-            log.debug("using {}", classLoader);
-            inputStream = classLoader.getResourceAsStream(fileName);
+        ClassLoader classLoader;
+        if (this.classLoader != null) {
+            classLoader = this.classLoader;
         } else {
-            log.debug("using {}", getClass().getClassLoader());
-            inputStream = getClass().getResourceAsStream(fileName);
+            classLoader = getClass().getClassLoader();
         }
+        log.debug("using {}", classLoader);
+
         Asset asset = new Asset();
-        asset.setFileName(new File(fileName).getName());
-        asset.setInputStream(inputStream);
+        asset.setFileName(fileName);
+        asset.setInputStream(new LazyResourceInputStream(classLoader, fileName));
         asset.setLastModified(lastModified);
 
         return asset;
