@@ -25,6 +25,7 @@ public class ControllerTest {
         Route route = mock(Route.class);
         when(route.copy()).thenReturn(route);
         when(route.getUrl()).thenReturn("testUrl");
+        when(route.getBeforeAction()).thenReturn("/");
         controller.setRoute(route);
 
         result = controller.render("route", controller.context());

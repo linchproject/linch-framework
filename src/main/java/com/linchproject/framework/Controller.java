@@ -34,11 +34,20 @@ public abstract class Controller extends com.linchproject.core.Controller {
 
     private I18n i18n;
 
-    protected Result render(String template) {
-        return render(template, context());
+    protected Result render() {
+        return render(route.getAction(), context());
     }
 
-    protected Result render(String template, Map<String, Object> context) {
+    protected Result render(Map<String, Object> context) {
+        return render(route.getAction(), context);
+    }
+
+    protected Result render(String action) {
+        return render(action, context());
+    }
+
+    protected Result render(String action, Map<String, Object> context) {
+        String template = route.getBeforeAction() + "/" + action;
         return success(renderService.render(template, context));
     }
 

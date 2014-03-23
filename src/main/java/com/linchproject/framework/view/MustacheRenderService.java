@@ -22,7 +22,10 @@ public class MustacheRenderService implements RenderService {
 
     @Override
     public String render(String template, Map<String, Object> context) {
-        log.debug("rendering {}");
+        if (template.startsWith("/")) {
+            template = template.substring(1, template.length());
+        }
+        log.debug("rendering {}", template);
 
         StringWriter writer = new StringWriter();
 
