@@ -14,6 +14,7 @@ import com.linchproject.http.CookieService;
 import com.linchproject.http.LocaleService;
 import com.linchproject.http.SessionService;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -47,8 +48,18 @@ public abstract class Controller extends com.linchproject.core.Controller {
     }
 
     protected Result render(String action, Map<String, Object> context) {
-        String template = route.getBeforeAction() + "/" + action;
-        return success(renderService.render(template, context));
+        StringBuilder template = new StringBuilder();
+        if (route.getSubPackage() != null) {
+            template.append(route.getSubPackage().replace(".", File.separator));
+            template.append(File.separator);
+        }
+        if (!route.isDefaultController()) {
+            template.append(route.getController());
+            template.append(File.separator);
+        }
+        template.append(action);
+
+        return success(renderService.render(template.toString(), context));
     }
 
     protected Context context() {

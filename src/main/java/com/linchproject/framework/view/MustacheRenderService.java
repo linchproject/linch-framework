@@ -7,6 +7,7 @@ import com.google.common.io.Files;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
 import java.io.Reader;
 import java.io.StringWriter;
 import java.util.Map;
@@ -22,7 +23,7 @@ public class MustacheRenderService implements RenderService {
 
     @Override
     public String render(String template, Map<String, Object> context) {
-        if (template.startsWith("/")) {
+        if (template.startsWith(File.separator)) {
             template = template.substring(1, template.length());
         }
         log.debug("rendering {}", template);
@@ -52,7 +53,7 @@ public class MustacheRenderService implements RenderService {
             }
         };
 
-        String fileName = "templates/" + template + ".mustache";
+        String fileName = "templates" + File.separator + template + ".mustache";
         log.debug("compiling {}", fileName);
         Mustache mustache = mf.compile(fileName);
         mustache.execute(writer, context);
