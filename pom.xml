@@ -10,7 +10,7 @@
         <dependency>
             <groupId>com.linchproject</groupId>
             <artifactId>linch-core</artifactId>
-            <version>0.2-SNAPSHOT</version>
+            <version>0.2</version>
         </dependency>
         <dependency>
             <groupId>com.linchproject</groupId>
@@ -25,7 +25,7 @@
         <dependency>
             <groupId>com.linchproject</groupId>
             <artifactId>linch-forms</artifactId>
-            <version>0.1-SNAPSHOT</version>
+            <version>0.1</version>
         </dependency>
 
         <dependency>
