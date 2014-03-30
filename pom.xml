@@ -4,7 +4,7 @@
 
     <groupId>com.linchproject</groupId>
     <artifactId>linch-framework</artifactId>
-    <version>0.2</version>
+    <version>0.3-SNAPSHOT</version>
 
     <dependencies>
         <dependency>
