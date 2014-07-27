@@ -8,6 +8,7 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -23,7 +24,7 @@ public class ControllerTest {
         Result result;
 
         Route route = mock(Route.class);
-        when(route.copy()).thenReturn(route);
+        when(route.changePath(anyString())).thenReturn(route);
         when(route.getUrl()).thenReturn("testUrl");
         when(route.isDefaultController()).thenReturn(true);
         controller.setRoute(route);

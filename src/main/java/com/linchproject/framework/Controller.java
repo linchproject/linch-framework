@@ -2,7 +2,6 @@ package com.linchproject.framework;
 
 import com.github.mustachejava.TemplateFunction;
 import com.linchproject.core.Result;
-import com.linchproject.core.Route;
 import com.linchproject.core.results.Binary;
 import com.linchproject.framework.assets.Asset;
 import com.linchproject.framework.assets.AssetService;
@@ -49,8 +48,8 @@ public abstract class Controller extends com.linchproject.core.Controller {
 
     protected Result render(String action, Map<String, Object> context) {
         StringBuilder template = new StringBuilder();
-        if (route.getSubPackage() != null) {
-            template.append(route.getSubPackage().replace(".", File.separator));
+        if (route.getSubpackage() != null) {
+            template.append(route.getSubpackage().replace(".", File.separator));
             template.append(File.separator);
         }
         if (!route.isDefaultController()) {
@@ -70,11 +69,11 @@ public abstract class Controller extends com.linchproject.core.Controller {
                     public String apply(String input) {
                         String url = null;
                         if (route != null) {
-                            Route newRoute = route.copy();
                             if (input.length() > 0) {
-                                newRoute.setPath(input);
+                                url = route.changePath(input).getUrl();
+                            } else {
+                                url = route.getUrl();
                             }
-                            url = newRoute.getUrl();
                         }
                         return url;
                     }
