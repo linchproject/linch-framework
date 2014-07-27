@@ -10,7 +10,7 @@
         <dependency>
             <groupId>com.linchproject</groupId>
             <artifactId>linch-core</artifactId>
-            <version>0.2</version>
+            <version>0.3-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>com.linchproject</groupId>
