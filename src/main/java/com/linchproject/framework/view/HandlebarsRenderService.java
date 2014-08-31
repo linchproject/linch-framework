@@ -97,11 +97,29 @@ public class HandlebarsRenderService implements RenderService, Initializing {
                 } else {
                     url = route.getUrl();
                 }
+
+                if (options.hash.size() > 0) {
+                    url = url + "?" + getQueryString(options.hash);
+                }
+
                 return url;
 
             } catch (ClassCastException e) {
                 throw new RenderException("route is not a route" , e);
             }
+        }
+
+        private String getQueryString(Map<String, Object> map) {
+            StringBuilder sb = new StringBuilder();
+            for (Map.Entry<String, Object> entry : map.entrySet()) {
+                if (sb.length() > 0) {
+                    sb.append("&");
+                }
+                sb.append(entry.getKey());
+                sb.append("=");
+                sb.append(entry.getValue());
+            }
+            return sb.toString();
         }
     }
 
