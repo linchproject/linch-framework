@@ -53,6 +53,7 @@ public class HandlebarsRenderService implements RenderService, Initializing {
         this.handlebars = new Handlebars(templateLoader);
         this.handlebars.registerHelper("path", new PathHelper());
         this.handlebars.registerHelper("i18n", new I18nHelper());
+        this.handlebars.registerHelper("block", new BlockHelper());
     }
 
     @Override
@@ -139,6 +140,22 @@ public class HandlebarsRenderService implements RenderService, Initializing {
             } catch (ClassCastException e) {
                 throw new RenderException("i18n is not an i18n object" , e);
             }
+        }
+    }
+
+    public class BlockHelper implements Helper<String> {
+
+        @Override
+        public CharSequence apply(String path, Options options) throws IOException {
+            Template template = options.partial(path);
+
+            if (template == null) {
+                template = options.fn;
+            }
+
+            Context childContext = Context.newContext(options.context, options.hash);
+
+            return options.apply(template, childContext);
         }
     }
 }
