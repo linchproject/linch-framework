@@ -19,6 +19,7 @@ public class HandlebarsRenderServiceTest {
     @Test
     public void testRender() throws Exception {
         HandlebarsRenderService handlebarsRenderService = new HandlebarsRenderService();
+        handlebarsRenderService.init();
 
         String result;
 
@@ -35,6 +36,7 @@ public class HandlebarsRenderServiceTest {
     @Test
     public void testPathHelper() throws Exception {
         HandlebarsRenderService handlebarsRenderService = new HandlebarsRenderService();
+        handlebarsRenderService.init();
 
         String result;
 
@@ -53,6 +55,7 @@ public class HandlebarsRenderServiceTest {
     @Test
     public void testI18nHelper() throws Exception {
         HandlebarsRenderService handlebarsRenderService = new HandlebarsRenderService();
+        handlebarsRenderService.init();
 
         String result;
 

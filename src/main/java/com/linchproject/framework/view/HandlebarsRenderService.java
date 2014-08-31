@@ -8,17 +8,19 @@ import com.github.jknack.handlebars.io.ClassPathTemplateLoader;
 import com.github.jknack.handlebars.io.TemplateLoader;
 import com.linchproject.core.Route;
 import com.linchproject.framework.i18n.I18n;
+import com.linchproject.ioc.Initializing;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.util.Map;
 
 /**
  * @author Georg Schmidl
  */
-public class HandlebarsRenderService implements RenderService {
+public class HandlebarsRenderService implements RenderService, Initializing {
 
     private static final Logger log = LoggerFactory.getLogger(HandlebarsRenderService.class);
 
@@ -26,9 +28,21 @@ public class HandlebarsRenderService implements RenderService {
 
     private Handlebars handlebars;
 
-    public HandlebarsRenderService() {
-        TemplateLoader templateLoader = new ClassPathTemplateLoader();
-        templateLoader.setPrefix("/templates");
+    @Override
+    public void init() {
+        TemplateLoader templateLoader = new ClassPathTemplateLoader() {
+            @Override
+            protected URL getResource(String location) {
+                if (classLoader != null) {
+                    log.debug("using {}", classLoader);
+                    return classLoader.getResource(location);
+                } else {
+                    log.debug("using {}", Thread.currentThread().getContextClassLoader());
+                    return Thread.currentThread().getContextClassLoader().getResource(location);
+                }
+            }
+        };
+        templateLoader.setPrefix("templates");
 
         this.handlebars = new Handlebars(templateLoader);
         this.handlebars.registerHelper("path", new PathHelper());
