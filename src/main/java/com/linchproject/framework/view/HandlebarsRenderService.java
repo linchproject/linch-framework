@@ -54,6 +54,7 @@ public class HandlebarsRenderService implements RenderService, Initializing {
         this.handlebars.registerHelper("path", new PathHelper());
         this.handlebars.registerHelper("i18n", new I18nHelper());
         this.handlebars.registerHelper("block", new BlockHelper());
+        this.handlebars.registerHelper("include", new IncludeHelper());
     }
 
     @Override
@@ -154,7 +155,17 @@ public class HandlebarsRenderService implements RenderService, Initializing {
             }
 
             Context childContext = Context.newContext(options.context, options.hash);
+            return options.apply(template, childContext);
+        }
+    }
 
+    public class IncludeHelper implements Helper<String> {
+
+        @Override
+        public CharSequence apply(String path, Options options) throws IOException {
+            Template template = options.handlebars.compile(path);
+
+            Context childContext = Context.newContext(options.context, options.hash);
             return options.apply(template, childContext);
         }
     }
