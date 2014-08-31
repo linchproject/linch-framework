@@ -1,14 +1,14 @@
 package com.linchproject.framework;
 
-import com.linchproject.core.Result;
 import com.linchproject.core.Route;
-import com.linchproject.core.results.Success;
-import com.linchproject.framework.view.MustacheRenderService;
+import com.linchproject.framework.i18n.I18n;
+import com.linchproject.framework.i18n.I18nService;
 import org.junit.Test;
 
+import java.util.Locale;
+
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.mockito.Matchers.anyString;
+import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -17,21 +17,20 @@ import static org.mockito.Mockito.when;
  */
 public class ControllerTest {
     @Test
-    public void testRender() throws Exception {
+    public void testContext() throws Exception {
         Controller controller = new MyController();
-        controller.setRenderService(new MustacheRenderService());
-
-        Result result;
 
         Route route = mock(Route.class);
-        when(route.changePath(anyString())).thenReturn(route);
-        when(route.getUrl()).thenReturn("testUrl");
-        when(route.isDefaultController()).thenReturn(true);
         controller.setRoute(route);
 
-        result = controller.render("route", controller.context());
-        assertTrue(result instanceof Success);
-        assertEquals("testUrl", ((Success) result).getContent());
+        I18n i18n = mock(I18n.class);
+        I18nService i18nService = mock(I18nService.class);
+        when(i18nService.getI18n(any(Locale.class))).thenReturn(i18n);
+        controller.setI18nService(i18nService);
+
+        Controller.Context context = controller.context();
+        assertEquals(route, context.get("route"));
+        assertEquals(i18n, context.get("i18n"));
     }
 
     public class MyController extends Controller {

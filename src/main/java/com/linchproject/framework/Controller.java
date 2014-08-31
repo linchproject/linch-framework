@@ -1,6 +1,5 @@
 package com.linchproject.framework;
 
-import com.github.mustachejava.TemplateFunction;
 import com.linchproject.core.Result;
 import com.linchproject.core.results.Binary;
 import com.linchproject.framework.assets.Asset;
@@ -64,20 +63,7 @@ public abstract class Controller extends com.linchproject.core.Controller {
     protected Context context() {
         return new Context()
                 .put("route", route)
-                .put("path", new TemplateFunction() {
-                    @Override
-                    public String apply(String input) {
-                        String url = null;
-                        if (route != null) {
-                            if (input.length() > 0) {
-                                url = route.changePath(input).getUrl();
-                            } else {
-                                url = route.getUrl();
-                            }
-                        }
-                        return url;
-                    }
-                });
+                .put("i18n", getI18n());
     }
 
     public class Context extends HashMap<String, Object> {
@@ -105,7 +91,12 @@ public abstract class Controller extends com.linchproject.core.Controller {
 
     protected I18n getI18n() {
         if (i18n == null) {
-            Locale locale = localeService.getLocale();
+            Locale locale = null;
+
+            if (localeService != null) {
+                locale = localeService.getLocale();
+            }
+
             i18n = locale != null? i18nService.getI18n(locale): i18nService.getI18n(Locale.getDefault());
         }
         return i18n;
