@@ -1,4 +1,4 @@
-#Linch Web Framework
+#Linch Web Framework [![Build Status](https://travis-ci.org/linchproject/linch-framework.svg)](https://travis-ci.org/linchproject/linch-framework)
 
 Note: This documentation is still work in progress.
 
