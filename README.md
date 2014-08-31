@@ -67,10 +67,10 @@ The method render returns a Success result with the rendered template as content
 
 ### Templates
 
-The Linch framework uses Mustache templates. Mustache templates must be located in resources/templates and have the extension .mustache.
-The controller above renders the template "index", so Linch will look for the file "resources/templates/index.mustache".
+The Linch framework uses Handlebars templates. Handlebars templates must be located in resources/templates and have the extension .hbs.
+The controller above renders the template "index", so Linch will look for the file "resources/templates/index.hbs".
 
-index.mustache:
+index.hbs:
 
     <!DOCTYPE html>
     <html>
