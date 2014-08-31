@@ -1,9 +1,8 @@
 package com.linchproject.framework.view;
 
-import com.github.jknack.handlebars.Handlebars;
-import com.github.jknack.handlebars.Helper;
-import com.github.jknack.handlebars.Options;
-import com.github.jknack.handlebars.Template;
+import com.github.jknack.handlebars.*;
+import com.github.jknack.handlebars.context.JavaBeanValueResolver;
+import com.github.jknack.handlebars.context.MapValueResolver;
 import com.github.jknack.handlebars.io.ClassPathTemplateLoader;
 import com.github.jknack.handlebars.io.TemplateLoader;
 import com.linchproject.core.Route;
@@ -27,6 +26,13 @@ public class HandlebarsRenderService implements RenderService, Initializing {
     protected ClassLoader classLoader;
 
     private Handlebars handlebars;
+
+    /*
+     * This JavaBeanValueResolver, by default, is a singleton which uses a cache. To ensure that
+     * the cache is cleared every time this service is created, we create a new instance, which
+     * will be given to the context.
+     */
+    private JavaBeanValueResolver javaBeanValueResolver = new JavaBeanValueResolver();
 
     @Override
     public void init() {
@@ -60,7 +66,10 @@ public class HandlebarsRenderService implements RenderService, Initializing {
             log.debug("compiling {}", templateName);
             Template template = this.handlebars.compile(templateName);
 
-            return template.apply(context);
+            Context handlebarsContext = Context.newBuilder(context)
+                    .resolver(MapValueResolver.INSTANCE, javaBeanValueResolver)
+                    .build();
+            return template.apply(handlebarsContext);
 
         } catch (IOException e) {
             throw new RenderException("template '" + templateName + "' cannot be loaded", e);
