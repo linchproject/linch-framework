@@ -148,14 +148,22 @@ public class HandlebarsRenderService implements RenderService, Initializing {
 
         @Override
         public CharSequence apply(String path, Options options) throws IOException {
-            Template template = options.partial(path);
+            Context blockContext = Context.newContext(options.context, options.hash);
 
-            if (template == null) {
-                template = options.fn;
+            CharSequence block = options.apply(options.fn, blockContext);
+
+            Template partialTemplate = options.partial(path);
+
+            CharSequence partial;
+
+            if (partialTemplate == null) {
+                partial = block;
+            } else {
+                Context partialContext =  Context.newContext(blockContext, block);
+                partial = options.apply(partialTemplate, partialContext);
             }
 
-            Context childContext = Context.newContext(options.context, options.hash);
-            return options.apply(template, childContext);
+            return partial;
         }
     }
 
