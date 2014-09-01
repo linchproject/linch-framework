@@ -55,6 +55,8 @@ public class HandlebarsRenderService implements RenderService, Initializing {
         this.handlebars.registerHelper("i18n", new I18nHelper());
         this.handlebars.registerHelper("block", new BlockHelper());
         this.handlebars.registerHelper("include", new IncludeHelper());
+        this.handlebars.registerHelper("inAction", new InActionHelper());
+        this.handlebars.registerHelper("inController", new InControllerHelper());
     }
 
     @Override
@@ -175,6 +177,44 @@ public class HandlebarsRenderService implements RenderService, Initializing {
 
             Context childContext = Context.newContext(options.context, options.hash);
             return options.apply(template, childContext);
+        }
+    }
+
+    public class InActionHelper implements Helper<String> {
+
+        @Override
+        public CharSequence apply(String action, Options options) throws IOException {
+            try {
+                Route route = (Route) options.context.get("route");
+
+                if (route != null && route.getAction().equals(action)) {
+                    return options.fn();
+                } else {
+                    return options.inverse();
+                }
+
+            } catch (ClassCastException e) {
+                throw new RenderException("route is not a route" , e);
+            }
+        }
+    }
+
+    public class InControllerHelper implements Helper<String> {
+
+        @Override
+        public CharSequence apply(String controller, Options options) throws IOException {
+            try {
+                Route route = (Route) options.context.get("route");
+
+                if (route != null && route.getController().equals(controller)) {
+                    return options.fn();
+                } else {
+                    return options.inverse();
+                }
+
+            } catch (ClassCastException e) {
+                throw new RenderException("route is not a route" , e);
+            }
         }
     }
 }
