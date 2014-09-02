@@ -20,7 +20,7 @@ public class IncludeHelperTest {
         String result;
 
         template = handlebars.compileInline(
-                "{{#include \"templates/include\"}}{{/include}}"
+                "{{include \"templates/include\"}}"
         );
         result = template.apply(context);
         assertEquals("test", result);

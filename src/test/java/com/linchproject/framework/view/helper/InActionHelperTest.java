@@ -44,7 +44,7 @@ public class InActionHelperTest {
         assertEquals("", result);
 
         template = handlebars.compileInline(
-                "{{#inAction \"test2\"}}onw{{else}}two{{/inAction}}"
+                "{{#inAction \"test2\"}}one{{else}}two{{/inAction}}"
         );
         result = template.apply(context);
         assertEquals("two", result);

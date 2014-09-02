@@ -34,13 +34,13 @@ public class PathHelperTest {
         String result;
 
         template = handlebars.compileInline(
-                "{{#path \"one\"}}{{/path}}"
+                "{{path \"one\"}}"
         );
         result = template.apply(context);
         assertEquals("test", result);
 
         template = handlebars.compileInline(
-                "{{#path \"one\" param=\"two\"}}{{/path}}"
+                "{{path \"one\" param=\"two\"}}"
         );
         result = template.apply(context);
         assertEquals("test?param=two", result);

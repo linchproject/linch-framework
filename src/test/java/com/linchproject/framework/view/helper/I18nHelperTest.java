@@ -32,7 +32,7 @@ public class I18nHelperTest {
         String result;
 
         template = handlebars.compileInline(
-                "{{#i18n \"test\"}}{{/i18n}}"
+                "{{i18n \"test\"}}"
         );
         result = template.apply(context);
         assertEquals("Test", result);
