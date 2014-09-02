@@ -16,7 +16,7 @@ public class BlockHelper implements Helper<String> {
     public CharSequence apply(String path, Options options) throws IOException {
         Context blockContext = Context.newContext(options.context, options.hash);
 
-        CharSequence block = options.apply(options.fn, blockContext);
+        CharSequence block = options.fn(blockContext);
 
         Template partialTemplate = options.partial(path);
 
