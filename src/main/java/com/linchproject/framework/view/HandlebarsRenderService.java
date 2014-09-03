@@ -53,7 +53,6 @@ public class HandlebarsRenderService implements RenderService, Initializing {
         this.handlebars.registerHelper("path", new PathHelper());
         this.handlebars.registerHelper("i18n", new I18nHelper());
         this.handlebars.registerHelper("block", new BlockHelper());
-        this.handlebars.registerHelper("include", new IncludeHelper());
         this.handlebars.registerHelper("inAction", new InActionHelper());
         this.handlebars.registerHelper("inController", new InControllerHelper());
     }
