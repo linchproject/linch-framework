@@ -21,6 +21,16 @@ public class I18nHelper implements Helper<String> {
                 throw new RenderException("i18n helper was called without an i18n object");
             }
 
+            String prefix = (String) options.hash.get("prefix");
+            if (prefix != null) {
+                key = prefix + key;
+            }
+
+            String suffix = (String) options.hash.get("suffix");
+            if (suffix != null) {
+                key = key + suffix;
+            }
+
             return i18n.getText(key);
 
         } catch (ClassCastException e) {

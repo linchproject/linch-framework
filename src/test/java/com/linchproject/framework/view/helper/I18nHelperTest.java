@@ -22,6 +22,9 @@ public class I18nHelperTest {
 
         I18n i18n = mock(I18n.class);
         when(i18n.getText("test")).thenReturn("Test");
+        when(i18n.getText("prefix.test")).thenReturn("Prefix Test");
+        when(i18n.getText("test.suffix")).thenReturn("Suffix Test");
+        when(i18n.getText("prefix.test.suffix")).thenReturn("Prefix Suffix Test");
 
         Map<String, Object> model = new HashMap<String, Object>();
         model.put("i18n", i18n);
@@ -36,7 +39,23 @@ public class I18nHelperTest {
         );
         result = template.apply(context);
         assertEquals("Test", result);
+
+        template = handlebars.compileInline(
+                "{{i18n \"test\" prefix=\"prefix.\"}}"
+        );
+        result = template.apply(context);
+        assertEquals("Prefix Test", result);
+
+        template = handlebars.compileInline(
+                "{{i18n \"test\" suffix=\".suffix\"}}"
+        );
+        result = template.apply(context);
+        assertEquals("Suffix Test", result);
+
+        template = handlebars.compileInline(
+                "{{i18n \"test\" prefix=\"prefix.\" suffix=\".suffix\"}}"
+        );
+        result = template.apply(context);
+        assertEquals("Prefix Suffix Test", result);
     }
-
-
 }
