@@ -24,7 +24,7 @@
         </dependency>
         <dependency>
             <groupId>com.linchproject</groupId>
-            <artifactId>linch-forms</artifactId>
+            <artifactId>linch-validator</artifactId>
             <version>0.1</version>
         </dependency>
 
